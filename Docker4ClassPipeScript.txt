@@ -1,0 +1,44 @@
+pipeline{
+    agent any
+    stages{
+        stage("Git-Colne"){
+            steps{
+                git branch: 'Docker4RepoClass', url: 'https://github.com/saisurendra98/Github-Jenkins-Docker-Task.git'
+            }
+        }
+        stage("Build-Docker-Image"){
+            steps{
+                sh 'docker build -t $img .'
+            }
+        }
+        stage("Run-Docker-Conatiner"){
+            steps{
+                sh 'docker stop pyla'
+                sh 'docker rm pyla'
+                sh 'docker run -itd --name pyla -p 80:80 $img'
+            }
+        }
+        stage("Tagging-Image"){
+            steps{
+                sh 'docker tag $img $repo'
+            }
+        }
+        stage("Push-Image-DockerHub"){
+            steps{
+                sh 'docker login -u $username -p $password'
+                sh 'docker push $repo'
+            }
+        }
+    }
+}
+
+----------------------------------------------------------------------------------------
+* Copy the above code & paste into Pipeline Script.
+* Must use project is parameterizrd option -> (choice parameter) below at description in Job Creation in Jenkins.
+
+
+
+
+
+
+
