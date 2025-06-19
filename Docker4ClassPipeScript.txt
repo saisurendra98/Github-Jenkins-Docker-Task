@@ -34,11 +34,51 @@ pipeline{
 
 ----------------------------------------------------------------------------------------
 * Copy the above code & paste into Pipeline Script.
-* Must use project is parameterizrd option -> (choice parameter) below at description in Job Creation in Jenkins.
-* It Worked ✔
+* Must use any one of these Options :
+1)Select "The Project is parameterizrd" option -> (choice parameter) below at description in Job Creation in Jenkins.
+* It Worked ✔ --> Practically i) (Name -> img 
+                                  Choices -> webappnew:v2 
+                                             webappold:v1)
+                               ii) (Name -> repo 
+                                    Choices -> saisurendra25/webappnew:v2
+                                               saisurendra25/webappold:v1)
+                              iii) (Name -> username 
+                                    Choices -> saisurendra25)
+                              iv)  (Name -> password 
+                                    Choices -> Sure@Devops#_9285#)
+2) Select "Environemnt Variable" option in "Global Properties". Manage Jenkins->System -> Gloabl Properties.
+* It Worked ✔  --> Practically -> above i&ii) Both are same. iii & iv) delete & add below lines in 👆 path.
+                               iii) (Name -> username 
+                                    Value -> saisurendra25)
+                               iv) (Name -> password
+                                    Value -> Sure@Devops#_9285#)
 
+3) Select "Credentials" option in Manage Jenkins.
+* It Worked ✔  --> Practically -> above i&ii) Both are same. iii & iv) delete & add below lines in 👆 path.
+                                         iii) Click (global) in that page -> click Add Credentials option.
+                                            * Kind        ->  username with passwword
+                                            * Scope       ->  Global (Jenkins, nodes, items, all child items, etc)
+                                            * Username    ->  your genuine docker username. (Dont tick as secret)
+                                            * Password    ->  your genuine docker password.
+                                            * ID          ->  our wish(docker)
+                                            * Description ->  our wish(docker)   ---> create.
+                                         iv) In Pipeline Syntax .
+                                            * Sample Step -> withCredentials: Bind credentials to variables          
+                                            * Bindings    -> click Username and password (separated) ✔ 
+                                               👉 Username Variable -> username (which is given at last login Step in the script)
+                                               👉 Password Variable -> password (which is given at last login Step in the script)
+                                               👉 Credentials       -> select (which we given at Credential option in Manage Settings)
+                                                 Ciick -> Generate Pipeline Syntax 👇
+withCredentials([usernamePassword(credentialsId: 'docker', passwordVariable: 'password', usernameVariable: 'username')]) {
+    // some block
+}
 
-
-
-
-
+* I Edited the Syntax like this in at last Step👇
+stage("Push-Image-DockerHub"){
+            steps{
+                withCredentials([usernamePassword(credentialsId: 'docker', passwordVariable: 'password', usernameVariable: 'username')]) {
+    sh 'docker login -u $username -p $password'
+                sh 'docker push $repo'
+} 
+ }
+        }
