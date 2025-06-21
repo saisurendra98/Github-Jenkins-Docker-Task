@@ -5,7 +5,7 @@ services:
     ports:
       - "81:80"
     deploy:
-    replicas: 3
+      replicas: 3
   recharge:
     image: saisurendra25/recharge:v2
     ports:
