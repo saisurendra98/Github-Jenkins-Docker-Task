@@ -39,7 +39,7 @@ stage("Push-Image-DockerHub"){
 
 -----------------------------------------------------------------------------------------------
 * Copy the above code & paste into Pipeline Script.
-* Must use any one of these Options :
+* Must use any one of these Options : (Login Types)
 1)Select "The Project is parameterizrd" option -> (choice parameter) below at description in Job Creation in Jenkins.
 * It Worked ✔ --> Practically i) (Name -> img
                                   Choices -> webappnew:v2
