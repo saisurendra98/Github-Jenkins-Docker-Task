@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  python:
+    image: saisurendra25/myapp:v1
+    ports:
+      - "81:80"
+    deploy:
+    replicas: 3
+  recharge:
+    image: saisurendra25/recharge:v2
+    ports:
+      - "82:80"
+    deploy:
+      replicas: 3
+  movies:
+    image: saisurendra25/movies:v3
+    ports:
+      - "83:80"
+    deploy:
+      replicas: 3
+
+      
